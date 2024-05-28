@@ -1,0 +1,28 @@
+using CombineProjects.Basics;
+using CombineProjects.Builders;
+using Shouldly;
+
+namespace CombineProjects.Tests
+{
+    public class FinalSolutionMaker
+    {
+        //[Fact]
+        public void DoAll()
+        {
+            var SrcProjAbsolutePath1 = "C:\\work\\Dawie\\Server\\Bitlink.Parking.Data\\Bitlink.Parking.Data.csproj";
+            var SrcProjAbsolutePath2 = "C:\\work\\Nucleus\\Nucleus.Core\\Nucleus.Core.csproj";
+            var SrcProjAbsolutePath3 =
+                "C:\\work\\Pietman.CodeManipulator\\Pietman.CodeManipulator.Domain\\Pietman.CodeManipulator.Domain.csproj";
+
+            var saveLocation = "C:\\work\\_Prototypes\\Testing123.sln";
+
+            var creator = new SolutionCreator();
+            var nfolder = creator.AddSolutionFolder("NewFolder");
+            var subfolder = creator.AddSolutionFolder("NewFolder 2", nfolder);
+            creator.AddProjectFrom(SrcProjAbsolutePath1, nfolder)
+                .AddProjectFrom(SrcProjAbsolutePath2, subfolder)
+                .AddProjectFrom(SrcProjAbsolutePath3)
+                .WriteTo(saveLocation);
+        }
+    }
+}

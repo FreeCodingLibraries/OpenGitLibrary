@@ -1,0 +1,27 @@
+using CombineProjects.Helpers;
+using Shouldly;
+
+namespace CombineProjects.Tests;
+
+public class PathExtTests
+{
+    [Fact]
+    public void CanDetermineRelativeDiff()
+    {
+        string fromPath = @"C:\Users\Example\documents\FolderA";
+        string toPath = @"C:\Users\example\Documents\FolderB\FolderC";
+
+        var pathDiff = PathHelper.PathDiff(fromPath, toPath);
+        pathDiff.ShouldBe(@"..\FolderB\FolderC");
+    }
+
+    [Fact]
+    public void CanDetermineRelativeDiffRealOne()
+    {
+        string fromPath = @"C:\work\_Prototypes\TestSolution1";
+        string toPath = @"C:\work\Dawie\Server\Bitlink.Parking.Data";
+
+        var pathDiff = PathHelper.PathDiff(fromPath, toPath);
+        pathDiff.ShouldBe(@"..\..\Dawie\Server\Bitlink.Parking.Data");
+    }
+}

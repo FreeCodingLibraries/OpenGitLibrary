@@ -1,0 +1,193 @@
+using CombineProjects.Basics;
+using Shouldly;
+
+namespace CombineProjects.Tests
+{
+    public class EmptySolutionTests
+    {
+
+        [Fact]
+        public void CanGenerateEmptySolution()
+        {
+            var generatedCode = new SolutionWriter().GenerateCode(new Solution()
+            {
+                Guid = "19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9"
+            }, "");
+            generatedCode.ShouldBe(@"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9}
+	EndGlobalSection
+EndGlobal
+");
+        }
+
+        [Fact]
+        public void CanAddAProject()
+        {
+            var solution = new Solution()
+            {
+                Guid = "19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9"
+            }; //C:\work\_Prototypes\TestSolution1\TestSolution1.sln
+            solution.Add(new Project() //C:\work\Dawie\Server\Bitlink.Parking.Data\Bitlink.Parking.Data.csproj
+            {
+                ProjectTypeGuid = ProjectTypes.CSharp_SDK_Project_System,
+                ProjName = "Bitlink.Parking.Data",
+                SrcProjAbsolutePath = "C:\\work\\Dawie\\Server\\Bitlink.Parking.Data\\Bitlink.Parking.Data.csproj",
+                ProjGuid = "26BB4BDD-388A-482E-91BC-5BEB140A4069",
+                TmpContent = @"<Project Sdk=""Microsoft.NET.Sdk"">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include=""Microsoft.EntityFrameworkCore"" Version=""7.0.5"" />
+    <PackageReference Include=""Microsoft.EntityFrameworkCore.Design"" Version=""7.0.5"">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include=""Microsoft.EntityFrameworkCore.Sqlite"" Version=""7.0.5"" />
+    <PackageReference Include=""Microsoft.EntityFrameworkCore.SqlServer"" Version=""7.0.5"" />
+    <PackageReference Include=""Microsoft.Extensions.Configuration"" Version=""7.0.0"" />
+    <PackageReference Include=""Microsoft.Extensions.Configuration.FileExtensions"" Version=""7.0.0"" />
+    <PackageReference Include=""Microsoft.Extensions.Configuration.Json"" Version=""7.0.0"" />
+  </ItemGroup>
+
+</Project>
+"
+            });
+            var generatedCode = new SolutionWriter().GenerateCode(solution, "C:\\work\\_Prototypes\\TestSolution1");
+            generatedCode.ShouldBe(@"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""Bitlink.Parking.Data"", ""..\..\Dawie\Server\Bitlink.Parking.Data\Bitlink.Parking.Data.csproj"", ""{26BB4BDD-388A-482E-91BC-5BEB140A4069}""
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26BB4BDD-388A-482E-91BC-5BEB140A4069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BB4BDD-388A-482E-91BC-5BEB140A4069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BB4BDD-388A-482E-91BC-5BEB140A4069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BB4BDD-388A-482E-91BC-5BEB140A4069}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9}
+	EndGlobalSection
+EndGlobal
+");
+        }
+
+        [Fact]
+        public void CanAdd2Projects()
+        {
+            var solution = new Solution()
+            {
+                Guid = "19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9"
+            }; //C:\work\_Prototypes\TestSolution1\TestSolution1.sln
+            solution.Add(new Project() //C:\work\Dawie\Server\Bitlink.Parking.Data\Bitlink.Parking.Data.csproj
+            {
+                ProjectTypeGuid = ProjectTypes.CSharp_SDK_Project_System,
+                ProjName = "Bitlink.Parking.Data",
+                SrcProjAbsolutePath = "C:\\work\\Dawie\\Server\\Bitlink.Parking.Data\\Bitlink.Parking.Data.csproj",
+                ProjGuid = "C3F642F6-B7FF-49A2-BBEB-ED5CCCC6624C",
+                TmpContent = @"<Project Sdk=""Microsoft.NET.Sdk"">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include=""Microsoft.EntityFrameworkCore"" Version=""7.0.5"" />
+    <PackageReference Include=""Microsoft.EntityFrameworkCore.Design"" Version=""7.0.5"">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include=""Microsoft.EntityFrameworkCore.Sqlite"" Version=""7.0.5"" />
+    <PackageReference Include=""Microsoft.EntityFrameworkCore.SqlServer"" Version=""7.0.5"" />
+    <PackageReference Include=""Microsoft.Extensions.Configuration"" Version=""7.0.0"" />
+    <PackageReference Include=""Microsoft.Extensions.Configuration.FileExtensions"" Version=""7.0.0"" />
+    <PackageReference Include=""Microsoft.Extensions.Configuration.Json"" Version=""7.0.0"" />
+  </ItemGroup>
+
+</Project>
+"
+            });
+            solution.Add(new Project() //C:\work\Nucleus\Nucleus.Core\Nucleus.Core.csproj
+            {
+                ProjectTypeGuid = ProjectTypes.CSharp_SDK_Project_System,
+                ProjName = "Nucleus.Core",
+                ProjGuid = "ADB56203-8854-4E91-A89D-AE0F07367DB0",
+                SrcProjAbsolutePath = "C:\\work\\Nucleus\\Nucleus.Core\\Nucleus.Core.csproj",
+                TmpContent = @"<Project Sdk=""Microsoft.NET.Sdk"">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include=""Newtonsoft.Json"" Version=""13.0.3"" />
+  </ItemGroup>
+
+</Project>
+"
+            });
+            var generatedCode = new SolutionWriter().GenerateCode(solution, "C:\\work\\_Prototypes\\TestSolution1");
+            //File.WriteAllText(@"C:\work\_Prototypes\TestSolution1\mine", generatedCode);
+
+            generatedCode.ShouldBe(@"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""Bitlink.Parking.Data"", ""..\..\Dawie\Server\Bitlink.Parking.Data\Bitlink.Parking.Data.csproj"", ""{C3F642F6-B7FF-49A2-BBEB-ED5CCCC6624C}""
+EndProject
+Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""Nucleus.Core"", ""..\..\Nucleus\Nucleus.Core\Nucleus.Core.csproj"", ""{ADB56203-8854-4E91-A89D-AE0F07367DB0}""
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3F642F6-B7FF-49A2-BBEB-ED5CCCC6624C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F642F6-B7FF-49A2-BBEB-ED5CCCC6624C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F642F6-B7FF-49A2-BBEB-ED5CCCC6624C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F642F6-B7FF-49A2-BBEB-ED5CCCC6624C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADB56203-8854-4E91-A89D-AE0F07367DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADB56203-8854-4E91-A89D-AE0F07367DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADB56203-8854-4E91-A89D-AE0F07367DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADB56203-8854-4E91-A89D-AE0F07367DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9}
+	EndGlobalSection
+EndGlobal
+");
+        }
+    }
+}

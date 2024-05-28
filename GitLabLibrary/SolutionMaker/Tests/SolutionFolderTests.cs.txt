@@ -1,0 +1,74 @@
+using CombineProjects.Basics;
+using CombineProjects.Builders;
+using Shouldly;
+
+namespace CombineProjects.Tests
+{
+    public class SolutionFolderTests
+    {
+        [Fact]
+        public void CanGenerateSimple()
+        {
+            var creator = new SolutionCreator();
+            var p1 = creator.AddSolutionFolder("Folder1", null, new Guid("02C744F2-90DA-4769-BFAA-18EC55E3F759"));
+            var f2 = creator.AddSolutionFolder("Folder 1A", p1, new Guid("77CFAFA4-D879-45BD-BED3-176C4BCAC153"));
+            var code = creator.AsText("c:\\hello");
+
+            code.ShouldBe(@"Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Folder1"", ""Folder1"", ""{02c744f2-90da-4769-bfaa-18ec55e3f759}""
+EndProject
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Folder 1A"", ""Folder 1A"", ""{77cfafa4-d879-45bd-bed3-176c4bcac153}""
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77CFAFA4-D879-45BD-BED3-176C4BCAC153} = {02C744F2-90DA-4769-BFAA-18EC55E3F759}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ef5d9f0d-737d-4db6-acd8-909be6679ed5}
+	EndGlobalSection
+EndGlobal
+");
+        }
+        //[Fact]
+        public void CanGenerateAdvanced()
+        {
+            var generatedCode = new SolutionWriter().GenerateCode(new Solution()
+            {
+                Guid = "19ABCC64-1E7C-4404-9D3C-8E2FC93DFAF9"
+            }, "");
+            generatedCode.ShouldBe(@"Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Folder 1AA"", ""Folder 1AA"", ""{195A3E27-FD33-4F94-869A-7185AB2B5FDC}""
+EndProject
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Folder1"", ""Folder1"", ""{02C744F2-90DA-4769-BFAA-18EC55E3F759}""
+EndProject
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Folder2"", ""Folder2"", ""{92FBD356-C311-4AA2-89F3-DAC97B82AE5A}""
+EndProject
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Folder 1A"", ""Folder 1A"", ""{77CFAFA4-D879-45BD-BED3-176C4BCAC153}""
+EndProject
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""templateprojects"", ""templateprojects"", ""{2DE31FDB-4549-4CFE-9D3C-72B824297656}""
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{195A3E27-FD33-4F94-869A-7185AB2B5FDC} = {77CFAFA4-D879-45BD-BED3-176C4BCAC153}
+		{77CFAFA4-D879-45BD-BED3-176C4BCAC153} = {02C744F2-90DA-4769-BFAA-18EC55E3F759}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ef5d9f0d-737d-4db6-acd8-909be6679ed5}
+	EndGlobalSection
+EndGlobal
+");
+        }
+    }
+}

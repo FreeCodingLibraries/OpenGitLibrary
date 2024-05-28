@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="GitLabWpfApp.Views.RelatedJiraProjects"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GitLabWpfApp.Views"
+             xmlns:viewModels="clr-namespace:GitLabWpfApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="YellowGreen">
+    <Grid>
+        <!--PreviewMouseLeftButtonDown="SourceTreeView_PreviewMouseLeftButtonDown"-->
+        <!--MouseMove="SourceTreeView_MouseMove"-->
+        <!--SelectedItemChanged="TreeView1_OnSelectedItemChanged"-->
+        <!--Background="AliceBlue" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Projects}"-->
+        <!--MouseDoubleClick="DblClickedOnProject"-->
+        <!--PreviewMouseDown="TreeView1_OnMouseLeftButtonDown">-->
+<WrapPanel Orientation="Vertical">
+<ScrollViewer VerticalScrollBarVisibility="Auto"
+              HorizontalScrollBarVisibility="Auto"
+              MinHeight="50px">
+            <TreeView x:Name="TargetTreeView" AllowDrop="True" Drop="TargetTreeView_Drop"
+                      KeyDown="TargetTreeView_OnKeyDown"
+                      MouseDoubleClick="TargetTreeView_OnMouseDoubleClick"
+                  ItemsSource="{Binding Projects}"
+                      >
+                <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <!--<EventSetter Event="PreviewMouseDown" Handler="EventSetter_OnHandler"></EventSetter>-->
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.ItemTemplate>
+                        <DataTemplate>
+                        <Label Content="{Binding .}" 
+                               Height="26" Margin="0 0 0 0" 
+                               FontWeight="Bold"
+                               Background="Transparent"
+                        ></Label>
+                        </DataTemplate>
+                </TreeView.ItemTemplate>
+                </TreeView>
+            </ScrollViewer>
+    <WrapPanel Orientation="Horizontal">
+                <Button Content="Create Solution" Click="CreateSolution"/>
+                <Button Content="Open Solution" Click="OpenSolution"/>
+
+            </WrapPanel>
+</WrapPanel>
+    </Grid>
+</UserControl>

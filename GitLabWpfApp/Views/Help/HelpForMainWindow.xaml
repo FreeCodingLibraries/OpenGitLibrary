@@ -1,0 +1,22 @@
+﻿<Window x:Class="GitLabWpfApp.Views.Help.HelpForMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GitLabWpfApp.Views.Help"
+        mc:Ignorable="d"
+        Title="HelpForMainWindow" Height="450" Width="800">
+    <WrapPanel Orientation="Vertical" >
+        <Rectangle Height="1" Fill="Black" HorizontalAlignment="Stretch" Margin="10,0"/>
+        <Label Content="Jiras" FontWeight="Bold"></Label>
+        <Label Content="Pressing Ctrl-Enter on the jira textbox, adds the current jira number. (also prefix if needed)"></Label>
+        <Label Content="Pressing Delete on the jira listbox, removes the current jira number."></Label>
+        <Label Content="Double click on a jira in the listbox, to switch to that Jira workspace."></Label>
+        <Label Content="Click on a jira label, to view the Jira ticket."></Label>
+        <Rectangle Height="1" Fill="Black" HorizontalAlignment="Stretch" Margin="10,0"/>
+        <Label Content="Projects" FontWeight="Bold"></Label>
+        <Label Content="Double click on a project to open it's solution in VS"></Label>
+        <Rectangle Height="1" Fill="Black" HorizontalAlignment="Stretch" Margin="10,0"/>
+        <Label Content="hello"></Label>
+    </WrapPanel>
+</Window>

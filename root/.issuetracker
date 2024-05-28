@@ -1,0 +1,7 @@
+# Integration with Issue Tracker
+#
+# (note that '\' need to be escaped).
+
+[issuetracker "FCC Jira"]
+  regex = "\\[FCC-(\\d+)\\]"
+  url = "https://my.jira.url/browse/FCC-$1"

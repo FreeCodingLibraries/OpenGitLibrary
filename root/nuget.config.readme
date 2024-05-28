@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <packageSources>
+        <clear />
+        <add key="OtherPC" value="https://otherPc/nuget/my-frameworks" />
+        <add key="LocalPC" value="https://localhost/nuget/third-party" />
+    </packageSources>
+</configuration>
+
+
+
+----------OR WITH MAPPINGS-------------------
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <packageSources>
+        <clear />
+        <add key="OtherPC" value="https://otherPc/nuget/my-frameworks" />
+        <add key="LocalPC" value="https://localhost/nuget/third-party" />
+    </packageSources>
+	
+    <packageSourceMapping>
+		<packageSource key="OtherPC">
+		  <package pattern="*" />
+		</packageSource>
+		<packageSource key="LocalPC">
+			<package pattern="MyNamespace.*" />
+			<package pattern="MyCompanyNs.*" />
+			<package pattern="AnotherNs" />
+		</packageSource>
+    </packageSourceMapping>	
+  
+</configuration>
