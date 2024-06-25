@@ -1,6 +1,7 @@
 ﻿using GitLabLibrary.Git;
 using GitLabLibrary.RepoGrouping;
 using GitLabLibrary.Services.GroupRepoUpdater.Events;
+using System.IO;
 
 namespace GitLabLibrary.Services.GroupRepoUpdater;
 
@@ -25,7 +26,7 @@ public class RepoGroupCloneUpdater
         var repositoryContexts = _gitLabProjectsManager
             .FetchGitLabProjects()
             //.Where(repoC => repoC.http_url_to_repo.Contains("aws", StringComparison.InvariantCultureIgnoreCase))
-            .Where(repoC => !_groupCloneOptions.SkipRepos.Contains(repoC.path_with_namespace))
+           // .Where(repoC => !_groupCloneOptions.SkipRepos.Contains(repoC.path_with_namespace))
             .ToArray();
 
         var augmentedRepositoryContexts = repositoryContexts;
@@ -33,47 +34,47 @@ public class RepoGroupCloneUpdater
         var repoCount = repositoryContexts.Count();
 
         var i = 1;
-        foreach (var repo in augmentedRepositoryContexts)
+        foreach (GitLabProjectContext repo in augmentedRepositoryContexts)
         {
-            /*var overrideForRepo =
-                _groupCloneOptions.OverrideSettingsForRepoPath(repo.GitLabProjectContext.path_with_namespace);
-            var thisRepoDefaultBranch = repo.GitLabProjectContext.default_branch; //?????
+            var overrideForRepo = _groupCloneOptions.OverrideSettingsForRepoPath(repo.path_with_namespace);
+            var thisRepoDefaultBranch = repo.default_branch; //?????
             var defaultRemoteBranch = overrideForRepo?.DefaultBranch ?? "master";
 
             Console.WriteLine(" ");
 
             Console.WriteLine($".. {i} / {repoCount} = {i * 100 / repoCount} %");
-            if (repo.FolderExists)
+            var reporealpath = PathMaker.From(repo.path);
+            if (Directory.Exists(reporealpath))
             {
-                var result = _gitClient.Pull(repo.LocalRepoPath, defaultRemoteBranch);
+                var result = _gitClient.Pull(reporealpath, defaultRemoteBranch);
 
                 OnRepoSynced(new RepoSyncedEvent
                 {
-                    RemoteRepoHttpUrl = repo.GitLabProjectContext.http_url_to_repo,
-                    GitLabRepoPathWithNamespace = repo.GitLabProjectContext.path_with_namespace,
-                    LocalRepoPath = repo.LocalRepoPath,
+                    RemoteRepoHttpUrl = repo.http_url_to_repo,
+                    GitLabRepoPathWithNamespace = repo.path_with_namespace,
+                    LocalRepoPath = reporealpath,
                     DefaultRemoteBranch = defaultRemoteBranch,
                     Result = result
                 });
             }
             else
             {
-                var result = _gitClient.Clone(repo.GitLabProjectContext.http_url_to_repo, repo.LocalRepoPath,
+                var result = _gitClient.Clone(repo.http_url_to_repo, reporealpath,
                     defaultRemoteBranch);
 
                 //              continue; //todo: remove
 
                 OnNewRepoWasCloned(new RepoClonedEvent
                 {
-                    RemoteRepoHttpUrl = repo.GitLabProjectContext.http_url_to_repo,
-                    GitLabRepoPathWithNamespace = repo.GitLabProjectContext.path_with_namespace,
-                    LocalRepoPath = repo.LocalRepoPath,
+                    RemoteRepoHttpUrl = repo.http_url_to_repo,
+                    GitLabRepoPathWithNamespace = repo.path_with_namespace,
+                    LocalRepoPath = reporealpath,
                     DefaultRemoteBranch = defaultRemoteBranch,
                     Result = result
                 });
             }
 
-            i++;*/
+            i++;
         }
 
         Console.WriteLine("");
@@ -101,4 +102,12 @@ public class RepoGroupCloneUpdater
     }
 
     #endregion
+}
+
+public class PathMaker
+{
+    public static string From(string repoPath)
+    {
+        return Path.Combine("c:\\Work\\code", repoPath);
+    }
 }
